@@ -1,0 +1,27 @@
+{
+  "name": "orgstats",
+  "version": "1.0.0",
+  "description": "The orgs statt",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vcfjr/orgstats.git"
+  },
+  "author": "Himanshu Jangid, Ankit Choudhary",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vcfjr/orgstats/issues"
+  },
+  "homepage": "https://github.com/vcfjr/orgstats#readme"
+}
