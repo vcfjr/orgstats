@@ -63,6 +63,7 @@ app.get("/", function (req, res) {
     var url = "https://api.github.com/users/" + req.query.username + "/orgs";
     getNum(url).then(function (val) {
         var data = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" style=\"isolation:isolate\" viewBox=\"0 0 100 100\" width=\"100pt\" height=\"100pt\">\n\n        <g clip-path=\"url(#_clipPath_VLb6lfFx0r7CcpSkBZx9S2SpQflF1hEA)\">\n            <circle vector-effect=\"non-scaling-stroke\" cx=\"50\" cy=\"50\" r=\"50\" fill=\"rgb(17,17,17)\" />\n            <g clip-path=\"url(#_clipPath_iDf8JuyXYtaPzeIziYulOYLlWAmEDEqM)\">\n                <text transform=\"matrix(1,0,0,1,30,63)\" style=\"font-family:'Notable';font-weight:400;font-size:36px;font-style:normal;font-variant-ligatures:none;fill:#FFFFFF;stroke:none;\">\n                " + addZero(val.length) + "\n                </text>\n            </g>\n            <defs>\n                <clipPath id=\"_clipPath_iDf8JuyXYtaPzeIziYulOYLlWAmEDEqM\">\n                    <rect x=\"0\" y=\"0\" width=\"47\" height=\"46.8\" transform=\"matrix(1,0,0,1,26.5,26.6)\" />\n                </clipPath>\n            </defs>\n        </g>\n    </svg>";
+        res.setHeader("Content-Type", "image/svg+xml");
         res.send(data);
     });
 });
