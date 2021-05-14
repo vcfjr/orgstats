@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+
 var __generator = (this && this.__generator) || function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
@@ -62,7 +63,18 @@ function addZero(d) {
 app.get("/", function (req, res) {
     var url = "https://api.github.com/users/" + req.query.username + "/orgs";
     getNum(url).then(function (val) {
-        var data = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" style=\"isolation:isolate\" viewBox=\"0 0 100 100\" width=\"100pt\" height=\"100pt\">\n\n        <g clip-path=\"url(#_clipPath_VLb6lfFx0r7CcpSkBZx9S2SpQflF1hEA)\">\n            <circle vector-effect=\"non-scaling-stroke\" cx=\"50\" cy=\"50\" r=\"50\" fill=\"rgb(17,17,17)\" />\n            <g clip-path=\"url(#_clipPath_iDf8JuyXYtaPzeIziYulOYLlWAmEDEqM)\">\n                <text transform=\"matrix(1,0,0,1,30,63)\" style=\"font-family:'Notable';font-weight:400;font-size:36px;font-style:normal;font-variant-ligatures:none;fill:#FFFFFF;stroke:none;\">\n                " + addZero(val.length) + "\n                </text>\n            </g>\n            <defs>\n                <clipPath id=\"_clipPath_iDf8JuyXYtaPzeIziYulOYLlWAmEDEqM\">\n                    <rect x=\"0\" y=\"0\" width=\"47\" height=\"46.8\" transform=\"matrix(1,0,0,1,26.5,26.6)\" />\n                </clipPath>\n            </defs>\n        </g>\n    </svg>";
+        var images = "";
+        var x = 20, y = 0;
+        for (var i = 0; i < val.length; i++) {
+            if (i > 0 && i % 4 == 0) {
+                y += 120;
+                x = 0;
+            }
+            images += "<svg x=\"" + (x) + "\" width=\"100px\"  y=\"" + y + "\" height=\"100px\" ><image height=\"100px\" width=\"100px\" xlink:href='" + val[i].avatar_url + "'/></svg>";
+            x += 120;
+        }
+        var data = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" style=\"isolation:isolate\" width=\"530\" heigth=\"" + y + 30 + "\">\n        <g transform=\"matrix(1,0,0,1,0,60)\">\n        " + images + "\n        </g>\n        <g clip-path=\"url(#_clipPath_VLb6lfFx0r7CcpSkBZx9S2SpQflF1hEA)\" transform=\"matrix(1,0,0,1,20,0)\">\n        <rect width=\"500\" rx=\"15\" ry=\"15\" height=\"50\" x=\"0\" y=\"0\" fill=\"#000\"/>\n                <text transform=\"matrix(1,0,0,1,140,30)\" style=\"font-family:'Notable';font-weight:400;font-size:36px;font-style:normal;font-variant-ligatures:none;fill:#FFFFFF; background-color:black; stroke:none;\">\n                Organizations\n                </text>\n        </g>\n    </svg>";
+        res.setHeader("Content-Type", "image/svg+xml");
         res.send(data);
     });
 });
