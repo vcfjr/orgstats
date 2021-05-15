@@ -8,7 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-
 var __generator = (this && this.__generator) || function (thisArg, body) {
     var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
     return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
@@ -60,22 +59,70 @@ var getNum = function (url) { return __awaiter(void 0, void 0, void 0, function 
 function addZero(d) {
     return (d < 10) ? '0' + d.toString() : d.toString();
 }
-app.get("/", function (req, res) {
-    var url = "https://api.github.com/users/" + req.query.username + "/orgs";
-    getNum(url).then(function (val) {
-        var images = "";
-        var x = 20, y = 0;
-        for (var i = 0; i < val.length; i++) {
-            if (i > 0 && i % 4 == 0) {
-                y += 120;
-                x = 0;
-            }
-            images += "<svg x=\"" + (x) + "\" width=\"100px\"  y=\"" + y + "\" height=\"100px\" ><image height=\"100px\" width=\"100px\" xlink:href='" + val[i].avatar_url + "'/></svg>";
-            x += 120;
+var getImageRaw = function (url) { return __awaiter(void 0, void 0, void 0, function () {
+    var axios, image, raw;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                axios = require('axios');
+                return [4 /*yield*/, axios.get(url, { responseType: 'arraybuffer' })];
+            case 1:
+                image = _a.sent();
+                raw = Buffer.from(image.data).toString('base64');
+                return [2 /*return*/, "data:" + image.headers["content-type"] + ";base64," + raw];
         }
-        var data = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" style=\"isolation:isolate\" width=\"530\" heigth=\"" + y + 30 + "\">\n        <g transform=\"matrix(1,0,0,1,0,60)\">\n        " + images + "\n        </g>\n        <g clip-path=\"url(#_clipPath_VLb6lfFx0r7CcpSkBZx9S2SpQflF1hEA)\" transform=\"matrix(1,0,0,1,20,0)\">\n        <rect width=\"500\" rx=\"15\" ry=\"15\" height=\"50\" x=\"0\" y=\"0\" fill=\"#000\"/>\n                <text transform=\"matrix(1,0,0,1,140,30)\" style=\"font-family:'Notable';font-weight:400;font-size:36px;font-style:normal;font-variant-ligatures:none;fill:#FFFFFF; background-color:black; stroke:none;\">\n                Organizations\n                </text>\n        </g>\n    </svg>";
-        res.setHeader("Content-Type", "image/svg+xml");
-        res.send(data);
     });
-});
+}); };
+app.get("/", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var url, data;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                url = "https://api.github.com/users/" + req.query.username + "/orgs";
+                return [4 /*yield*/, getNum(url).then(function (val) {
+                        var images = "";
+                        var x = 20, y = 0;
+                        (function loop() {
+                            return __awaiter(this, void 0, void 0, function () {
+                                var i;
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            i = 0;
+                                            _a.label = 1;
+                                        case 1:
+                                            if (!(i < val.length)) return [3 /*break*/, 4];
+                                            if (i > 0 && i % 4 == 0) {
+                                                y += 120;
+                                                x = 0;
+                                            }
+                                            return [4 /*yield*/, getImageRaw(val[i].avatar_url).then(function (data) {
+                                                    images += "<svg x=\"" + (x) + "\" width=\"100px\"  y=\"" + y + "\" height=\"100px\" ><image height=\"100px\" width=\"100px\" xlink:href='" + data + "'/></svg>";
+                                                    x += 120;
+                                                }).finally(function () {
+                                                    data = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" style=\"isolation:isolate\" width=\"530\" heigth=\"" + y + 60 + "\">\n            <g transform=\"matrix(1,0,0,1,0,60)\">\n            " + images + "\n            </g>\n            <g clip-path=\"url(#_clipPath_VLb6lfFx0r7CcpSkBZx9S2SpQflF1hEA)\" transform=\"matrix(1,0,0,1,20,0)\">\n            <rect width=\"500\" rx=\"15\" ry=\"15\" height=\"50\" x=\"0\" y=\"0\" fill=\"#000\"/>\n                    <text transform=\"matrix(1,0,0,1,140,30)\" style=\"font-family:'Notable';font-weight:400;font-size:36px;font-style:normal;font-variant-ligatures:none;fill:#FFFFFF; background-color:black; stroke:none;\">\n                    Organizations\n                    </text>\n            </g>\n        </svg>";
+                                                })];
+                                        case 2:
+                                            _a.sent();
+                                            _a.label = 3;
+                                        case 3:
+                                            i++;
+                                            return [3 /*break*/, 1];
+                                        case 4: return [2 /*return*/];
+                                    }
+                                });
+                            });
+                        })().finally(function () {
+                            res.setHeader("Content-Type", "image/svg+xml");
+                            res.send(data);
+                        }).catch(function (err) {
+                            console.log(err);
+                        });
+                    })];
+            case 1:
+                _a.sent();
+                return [2 /*return*/];
+        }
+    });
+}); });
 app.listen(3000);
