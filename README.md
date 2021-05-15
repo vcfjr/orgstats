@@ -4,7 +4,7 @@
 
 ### Just user this link
 
-![code](code.png)
+![code](code2.png)
 ### Sample : <br><br>
 ![orgs](https://orgstats.vercel.app/?username=himanshurajora)
 
