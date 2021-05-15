@@ -4,8 +4,8 @@
 
 ### Just user this link
 
-<code>![orgs](https://orgstats.vercel.app/?username=yourusername)</code>
-
+<code>///![orgs](https://orgstats.vercel.app/?username=yourusername)///</code>
+*remove the slashes "///"
 ### Sample : <br><br>
 ![orgs](https://orgstats.vercel.app/?username=himanshurajora)
 
